@@ -1,3 +1,7 @@
+//A recreation of the game Hearthstone in Java
+//Created 04/17/16 by Trevor B.
+//Last updated 04/25/16
+
 import java.util.*;
 import javax.swing.*;
 
