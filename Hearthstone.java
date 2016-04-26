@@ -1,6 +1,6 @@
 //A recreation of the game Hearthstone in Java
 //Created 04/17/16 by Trevor B.
-//Last updated 04/25/16
+//Last updated 04/26/16
 
 import java.util.*;
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class Hearthstone {
 		/////////////////////////
 
 		Scanner keyboard = new Scanner(System.in);
-		Random RNGsus = new Random(); //for later
+		Random randomizer = new Random(); //for later
 
 		//Welcome message
 		System.out.println("Hearthstone (Redux)\nBy Trevor B.\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
