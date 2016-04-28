@@ -1,257 +1,85 @@
 //A recreation of the game Hearthstone in Java
 //Created 04/17/16 by Trevor B.
-//Last updated 04/26/16
+//Last updated 04/28/16
 
-import java.util.*;
-import javax.swing.*;
+import java.util.Random;
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 
 public class Hearthstone {
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		String redName, blueName;
-		String redClass = null, blueClass = null;
-		String redHero = null, blueHero = null;
+        Scanner keyboard = new Scanner(System.in);
+        Random randomizer = new Random(); // for later
 
-		boolean redTurn, blueTurn; //for later
+        // Welcome message
+        System.out.println("Hearthstone (Redux)\nBy Trevor B.\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
-		/////////////////////////
+        // Assigning players
+        Player red = new Player("Red");
+        System.out.print("Red player, enter your name: ");
+        red.setName(keyboard.nextLine());
 
-		Scanner keyboard = new Scanner(System.in);
-		Random randomizer = new Random(); //for later
+        Player blue = new Player("Blue");
+        System.out.print("Blue player, enter your name: ");
+        blue.setName(keyboard.nextLine());
 
-		//Welcome message
-		System.out.println("Hearthstone (Redux)\nBy Trevor B.\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        // Picking heroes
+        pickHero(red);
+        pickHero(blue);
+        
+        //Creating decks TODO
+        /*makeDeck(red);*/
+        /*makeDeck(blue);*/
+    }
+    
+    
 
-		//Assigning players
-		System.out.print("Red player, enter your name: ");
-		redName = keyboard.nextLine();
+    private static Classes chooseHero(String name, String colorClass) {
+        return (Classes) JOptionPane.showInputDialog(null, name + ", pick your class", colorClass + " class",
+                JOptionPane.QUESTION_MESSAGE, null, Classes.values(), "Choose One");
+    }
 
-		System.out.print("Blue player, enter your name: ");
-		blueName = keyboard.nextLine();
+    private static String chooseAlternateHero(Player player, String[] heroNames) {
+        String alternateHeroResponse = null;
+        while (alternateHeroResponse == null) {
+            alternateHeroResponse = (String) JOptionPane.showInputDialog(null,
+                    player.getName() + ", which hero do you want to use?", player.getColor() + " hero",
+                    JOptionPane.QUESTION_MESSAGE, null, heroNames, "Choose one");
 
-		//Picking hero
-		while(redClass == null || redClass == "Choose one") {
-			String[] heroes = {
-					"Choose one", 
-					"Druid", 
-					"Hunter", 
-					"Mage", 
-					"Paladin", 
-					"Priest", 
-					"Rogue", 
-					"Shaman", 
-					"Warlock", 
-					"Warrior"
-					};
-			redClass = (String) JOptionPane.showInputDialog(null, redName + ", pick your class", "Red class", JOptionPane.QUESTION_MESSAGE, null, heroes, heroes[0]);
+            if (alternateHeroResponse == null) {
+                System.err.println(player.getName() + " did not pick a hero!");
+            }
+        }
+        return alternateHeroResponse;
+    }
 
-			if(redClass == null || redClass == "Choose one") {
-				System.err.println(redName + " did not pick a class!");
-			}
-			else {
-				if(redClass == "Druid") {
-					redHero = "Malfurion Stormrage";
-				}
-				else if(redClass == "Hunter") {
-					String alternateHeroResponse = null;
-					while(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-						String[] alternateHeroResponseChoices = {
-								"Choose one", 
-								"Rexxar", 
-								"Alleria Windrunner"
-								};
-						alternateHeroResponse = (String) JOptionPane.showInputDialog(null, redName + ", which hero do you want to use?", "Red hero", JOptionPane.QUESTION_MESSAGE, null, alternateHeroResponseChoices, alternateHeroResponseChoices[0]);
-						
-						if(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-							System.err.println(redName + " did not pick a hero!");
-						}
-						else {
-							redHero = alternateHeroResponse;
-						}
-					}
-				}
-				else if(redClass == "Mage") {
-					String alternateHeroResponse = null;
-					while(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-						String[] alternateHeroResponseChoices = {
-								"Choose one", 
-								"Jaina Proudmoor", 
-								"Medivh",
-								"Khadgar"
-								};
-						alternateHeroResponse = (String) JOptionPane.showInputDialog(null, redName + ", which hero do you want to use?", "Red hero", JOptionPane.QUESTION_MESSAGE, null, alternateHeroResponseChoices, alternateHeroResponseChoices[0]);
-						
-						if(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-							System.err.println(redName + " did not pick a hero!");
-						}
-						else {
-							redHero = alternateHeroResponse;
-						}
-					}
-				}
-				else if(redClass == "Paladin") {
-					String alternateHeroResponse = null;
-					while(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-						String[] alternateHeroResponseChoices = {
-								"Choose one", 
-								"Uther Lightbringer", 
-								"Lady Liadrin"
-								};
-						alternateHeroResponse = (String) JOptionPane.showInputDialog(null, redName + ", which hero do you want to use?", "Red hero", JOptionPane.QUESTION_MESSAGE, null, alternateHeroResponseChoices, alternateHeroResponseChoices[0]);
-						
-						if(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-							System.err.println(redName + " did not pick a hero!");
-						}
-						else {
-							redHero = alternateHeroResponse;
-						}
-					}
-				}
-				else if(redClass == "Priest") {
-					redHero = "Anduin Wrynn";
-				}
-				else if(redClass == "Rogue") {
-					redHero = "Valeera Sanguinar";
-				}
-				else if(redClass == "Shaman") {
-					redHero = "Thrall";
-				}
-				else if(redClass == "Warlock") {
-					redHero = "Gul'dan";
-				}
-				else if(redClass == "Warrior") {
-					String alternateHeroResponse = null;
-					while(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-						String[] alternateHeroResponseChoices = {
-								"Choose one", 
-								"Garrosh Hellscream", 
-								"Magni Bronzebeard"
-								};
-						alternateHeroResponse = (String) JOptionPane.showInputDialog(null, redName + ", which hero do you want to use?", "Red hero", JOptionPane.QUESTION_MESSAGE, null, alternateHeroResponseChoices, alternateHeroResponseChoices[0]);
-						
-						if(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-							System.err.println(redName + " did not pick a hero!");
-						}
-						else {
-							redHero = alternateHeroResponse;
-						}
-					}
-				}
-				
-				System.out.println(redName + " has chosen " + redClass + " and will play as " + redHero + ".");
-			}
-		}
-		
-		while(blueClass == null || blueClass == "Choose one") {
-			String[] heroes = {
-					"Choose one", 
-					"Druid", 
-					"Hunter", 
-					"Mage", 
-					"Paladin", 
-					"Priest", 
-					"Rogue", 
-					"Shaman", 
-					"Warlock", 
-					"Warrior"
-					};
-			blueClass = (String) JOptionPane.showInputDialog(null, blueName + ", pick your class", "Blue class", JOptionPane.QUESTION_MESSAGE, null, heroes, heroes[0]);
+    private static void pickHero(Player player) {
+        while (player.getHeroClass() == null) {
+            player.setHeroClass(chooseHero(player.getName(), player.getColor()));
 
-			if(blueClass == null || blueClass == "Choose one") {
-				System.err.println(blueName + " did not pick a class!");
-			}
-			else {
-				if(blueClass == "Druid") {
-					blueHero = "Malfurion Stormrage";
-				}
-				else if(blueClass == "Hunter") {
-					String alternateHeroResponse = null;
-					while(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-						String[] alternateHeroResponseChoices = {
-								"Choose one", 
-								"Rexxar", 
-								"Alleria Windrunner"
-								};
-						alternateHeroResponse = (String) JOptionPane.showInputDialog(null, blueName + ", which hero do you want to use?", "Blue hero", JOptionPane.QUESTION_MESSAGE, null, alternateHeroResponseChoices, alternateHeroResponseChoices[0]);
-						
-						if(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-							System.err.println(blueName + " did not pick a hero!");
-						}
-						else {
-							blueHero = alternateHeroResponse;
-						}
-					}
-				}
-				else if(blueClass == "Mage") {
-					String alternateHeroResponse = null;
-					while(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-						String[] alternateHeroResponseChoices = {
-								"Choose one", 
-								"Jaina Proudmoor", 
-								"Medivh",
-								"Khadgar"
-								};
-						alternateHeroResponse = (String) JOptionPane.showInputDialog(null, blueName + ", which hero do you want to use?", "Blue hero", JOptionPane.QUESTION_MESSAGE, null, alternateHeroResponseChoices, alternateHeroResponseChoices[0]);
-						
-						if(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-							System.err.println(blueName + " did not pick a hero!");
-						}
-						else {
-							blueHero = alternateHeroResponse;
-						}
-					}
-				}
-				else if(blueClass == "Paladin") {
-					String alternateHeroResponse = null;
-					while(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-						String[] alternateHeroResponseChoices = {
-								"Choose one", 
-								"Uther Lightbringer", 
-								"Lady Liadrin"
-								};
-						alternateHeroResponse = (String) JOptionPane.showInputDialog(null, blueName + ", which hero do you want to use?", "Blue hero", JOptionPane.QUESTION_MESSAGE, null, alternateHeroResponseChoices, alternateHeroResponseChoices[0]);
-						
-						if(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-							System.err.println(blueName + " did not pick a hero!");
-						}
-						else {
-							blueHero = alternateHeroResponse;
-						}
-					}
-				}
-				else if(blueClass == "Priest") {
-					blueHero = "Anduin Wrynn";
-				}
-				else if(blueClass == "Rogue") {
-					blueHero = "Valeera Sanguinar";
-				}
-				else if(blueClass == "Shaman") {
-					blueHero = "Thrall";
-				}
-				else if(blueClass == "Warlock") {
-					blueHero = "Gul'dan";
-				}
-				else if(blueClass == "Warrior") {
-					String alternateHeroResponse = null;
-					while(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-						String[] alternateHeroResponseChoices = {
-								"Choose one", 
-								"Garrosh Hellscream", 
-								"Magni Bronzebeard"
-								};
-						alternateHeroResponse = (String) JOptionPane.showInputDialog(null, blueName + ", which hero do you want to use?", "Blue hero", JOptionPane.QUESTION_MESSAGE, null, alternateHeroResponseChoices, alternateHeroResponseChoices[0]);
-						
-						if(alternateHeroResponse == null || alternateHeroResponse == "Choose one") {
-							System.err.println(blueName + " did not pick a hero!");
-						}
-						else {
-							blueHero = alternateHeroResponse;
-						}
-					}
-				}
-				
-				System.out.println(blueName + " has chosen " + blueClass + " and will play as " + blueHero + ".");
-			}
-		}
-	}
+            if (player.getHeroClass() == null) {
+                System.err.println(player.getName() + " did not pick a class!");
+            } else {
+                if (player.getHeroClass().getHeroNames().length > 1) {
+                    player.setHeroName(chooseAlternateHero(player, player.getHeroClass().getHeroNames()));
+                } else {
+                    player.setHeroName(player.getHeroClass().getHeroNames()[0]);
+                }
+
+                System.out.println(player.getName() + " has chosen " + player.getHeroClass().toString()
+                        + " and will play as " + player.getHeroName() + ".");
+            }
+        }
+    }
+    
+    private static void makeDeck(Player player) {
+    	final int MAX_CARDS = 30;
+    	int cardsInDeck = 0;
+    	
+    	while(cardsInDeck <= MAX_CARDS) {
+    		
+    	}
+    }
 }
